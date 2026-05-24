@@ -4,9 +4,9 @@ import { TextRevealByWord } from "@/components/ui/text-reveal";
 import { DisplayCardsDemo } from "@/components/ui/display-cards";
 import { FeaturesDemo } from "@/components/ui/features-8";
 import { TestimonialsDemo } from "@/components/ui/testimonial-v2";
-import { RadialOrbitalTimelineDemo } from "@/components/ui/radial-orbital-timeline";
 import HoverFooter from "@/components/ui/hover-footer";
 import { MorphingTextDemo } from "@/components/ui/morphing-text";
+import { ContactFormDemo } from "@/components/ui/contact-form-demo";
 
 export default function Home() {
   return (
@@ -26,7 +26,12 @@ export default function Home() {
       <DisplayCardsDemo />
       <FeaturesDemo />
       <TestimonialsDemo />
-      <RadialOrbitalTimelineDemo />
+      
+      {/* Contact Section Project Planner Form */}
+      <div id="contact" className="relative w-full bg-black">
+        <ContactFormDemo />
+      </div>
+      
       <HoverFooter />
       <MorphingTextDemo />
     </main>

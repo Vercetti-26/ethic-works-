@@ -14,8 +14,8 @@ const plans = [
         name: "Starter",
         description:
             "Great for small businesses and startups looking to get started with AI",
-        price: 12,
-        yearlyPrice: 99,
+        price: 999,
+        yearlyPrice: 9999,
         buttonText: "Get started",
         buttonVariant: "outline" as const,
         includes: [
@@ -33,8 +33,8 @@ const plans = [
         name: "Business",
         description:
             "Best value for growing businesses that need more advanced features",
-        price: 48,
-        yearlyPrice: 399,
+        price: 3999,
+        yearlyPrice: 39999,
         buttonText: "Get started",
         buttonVariant: "default" as const,
         popular: true,
@@ -53,8 +53,8 @@ const plans = [
         name: "Enterprise",
         description:
             "Advanced plan with enhanced security and unlimited access for large teams",
-        price: 96,
-        yearlyPrice: 899,
+        price: 7999,
+        yearlyPrice: 79999,
         buttonText: "Get started",
         buttonVariant: "outline" as const,
         includes: [
@@ -265,10 +265,10 @@ export default function PricingSection6() {
                                 </div>
                                 <div className="flex items-baseline">
                                     <span className="text-4xl font-semibold ">
-                                        $
+                                        ₹
                                         <NumberFlow
                                             format={{
-                                                currency: "USD",
+                                                currency: "INR",
                                             }}
                                             value={isYearly ? plan.yearlyPrice : plan.price}
                                             className="text-4xl font-semibold"
@@ -283,14 +283,14 @@ export default function PricingSection6() {
 
                             <CardContent className="pt-0">
                                 <button
-                                    className={`w-full mb-6 p-4 text-xl rounded-xl ${plan.popular
-                                        ? "bg-gradient-to-t from-blue-500 to-blue-600  shadow-lg shadow-blue-800 border border-blue-500 text-white"
+                                    className={`w-full mb-6 p-4 text-lg font-semibold rounded-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${plan.popular
+                                        ? "bg-gradient-to-t from-blue-500 to-blue-600 shadow-lg shadow-blue-800 border border-blue-500 text-white"
                                         : plan.buttonVariant === "outline"
-                                            ? "bg-gradient-to-t from-neutral-950 to-neutral-600  shadow-lg shadow-neutral-900 border border-neutral-800 text-white"
+                                            ? "bg-gradient-to-t from-neutral-950 to-neutral-600 shadow-lg shadow-neutral-900 border border-neutral-800 text-white hover:border-neutral-500"
                                             : ""
                                         }`}
                                 >
-                                    {plan.buttonText}
+                                    {plan.buttonText} - ₹{isYearly ? `${plan.yearlyPrice.toLocaleString()}/yr` : `${plan.price.toLocaleString()}/mo`}
                                 </button>
 
                                 <div className="space-y-3 pt-4 border-t border-neutral-700">

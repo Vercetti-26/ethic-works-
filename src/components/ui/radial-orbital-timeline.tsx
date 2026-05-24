@@ -111,9 +111,18 @@ export default function RadialOrbitalTimeline({
         setRotationAngle(270 - targetAngle);
     };
 
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
     const calculateNodePosition = (index: number, total: number) => {
         const angle = ((index / total) * 360 + rotationAngle) % 360;
-        const radius = 200;
+        const radius = isMobile ? 120 : 200;
         const radian = (angle * Math.PI) / 180;
 
         const x = radius * Math.cos(radian) + centerOffset.x;
@@ -176,7 +185,7 @@ export default function RadialOrbitalTimeline({
                         <div className="w-8 h-8 rounded-full bg-white/80 backdrop-blur-md"></div>
                     </div>
 
-                    <div className="absolute w-96 h-96 rounded-full border border-white/10"></div>
+                    <div className="absolute w-64 h-64 md:w-96 md:h-96 rounded-full border border-white/10"></div>
 
                     {timelineData.map((item, index) => {
                         const position = calculateNodePosition(index, timelineData.length);

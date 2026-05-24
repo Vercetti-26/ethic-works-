@@ -143,9 +143,9 @@ export function SterlingGateKineticNavigation() {
     const closeMenu = () => setIsMenuOpen(false);
 
     return (
-        <div ref={containerRef} className="fixed top-0 right-0 z-50 pointer-events-none w-full">
+        <div ref={containerRef} className="fixed top-0 right-0 z-[9999] pointer-events-none w-full">
             <div className="site-header-wrapper pointer-events-auto">
-                <header className="header absolute top-8 right-8 z-[100]">
+                <header className="header fixed top-4 right-4 sm:top-8 sm:right-8 z-[100]">
                     <button
                         role="button"
                         className="nav-close-btn flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white rounded-full px-6 py-3 transition-colors border border-white/20"
@@ -205,12 +205,51 @@ export function SterlingGateKineticNavigation() {
                             </div>
                         </div>
 
-                        <div className="menu-content-wrapper relative z-10 h-full flex items-center p-12 md:p-24">
-                            <ul className="menu-list flex flex-col gap-6 w-full">
-                                {['About us', 'Our work', 'Services', 'Blog', 'Contact us'].map((text, i) => (
-                                    <li key={text} className="menu-list-item overflow-hidden" data-shape={i + 1}>
-                                        <a href="#" className="nav-link block text-4xl md:text-6xl font-black text-white hover:text-white/70 transition-colors uppercase tracking-tight py-2 outline-none focus-visible:ring-2 focus-visible:ring-white">
-                                            <p className="nav-link-text">{text}</p>
+                        <div className="menu-content-wrapper site-menu-wrapper relative z-10 h-full flex items-center p-12 md:p-24">
+                            <style>{`
+                                @media (max-height: 780px) {
+                                    .site-menu-wrapper {
+                                        align-items: flex-start !important;
+                                        padding-top: 6.5rem !important;
+                                    }
+                                    .site-menu-list {
+                                        gap: 0.5rem !important;
+                                    }
+                                    .site-nav-link {
+                                        font-size: 2rem !important;
+                                        padding-top: 0.15rem !important;
+                                        padding-bottom: 0.15rem !important;
+                                    }
+                                }
+                                @media (max-height: 600px) {
+                                    .site-menu-wrapper {
+                                        padding-top: 5.5rem !important;
+                                    }
+                                    .site-menu-list {
+                                        gap: 0.35rem !important;
+                                    }
+                                    .site-nav-link {
+                                        font-size: 1.5rem !important;
+                                    }
+                                }
+                            `}</style>
+                            <ul className="menu-list site-menu-list flex flex-col gap-6 w-full">
+                                {[
+                                    { text: 'About us', href: '/about' },
+                                    { text: 'Our work', href: '/#work' },
+                                    { text: 'Services', href: '/#services' },
+                                    { text: 'Blog', href: '/blog' },
+                                    { text: 'Contact us', href: '/#contact' }
+                                ].map((item, i) => (
+                                    <li key={item.text} className="menu-list-item overflow-hidden" data-shape={i + 1}>
+                                        <a
+                                            href={item.href}
+                                            onClick={() => {
+                                                closeMenu();
+                                            }}
+                                            className="nav-link site-nav-link block text-4xl md:text-6xl font-black text-white hover:text-white/70 transition-colors uppercase tracking-tight py-2 outline-none focus-visible:ring-2 focus-visible:ring-white"
+                                        >
+                                            <p className="nav-link-text">{item.text}</p>
                                         </a>
                                     </li>
                                 ))}

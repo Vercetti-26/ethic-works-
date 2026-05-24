@@ -142,7 +142,7 @@ export { MorphingText };
 
 const texts = [
     "created by",
-    "onixflow",
+    "devfox",
 ];
 
 export function MorphingTextDemo() {

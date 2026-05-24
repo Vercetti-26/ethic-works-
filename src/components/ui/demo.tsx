@@ -82,8 +82,41 @@ function StatsMarquee() {
 
 export default function Hero() {
     return (
-        <section className="relative flex h-screen w-full flex-col items-start justify-end bg-black">
-            <div className="absolute top-8 left-8 z-20 flex items-center gap-3 text-white">
+        <section className="relative flex min-h-screen md:h-screen w-full flex-col items-start justify-end bg-black overflow-hidden py-12 md:py-0">
+            <style>{`
+                @media (max-height: 768px) {
+                    .hero-logo-container {
+                        top: 1rem !important;
+                        left: 1rem !important;
+                    }
+                    .hero-heading {
+                        font-size: 2.5rem !important;
+                        line-height: 1.1 !important;
+                    }
+                    .hero-desc {
+                        font-size: 1.25rem !important;
+                    }
+                    .hero-content-padding {
+                        padding-bottom: 2.5rem !important;
+                    }
+                }
+                @media (max-height: 600px) {
+                    .hero-logo-container {
+                        top: 0.75rem !important;
+                        left: 0.75rem !important;
+                    }
+                    .hero-heading {
+                        font-size: 2rem !important;
+                    }
+                    .hero-desc {
+                        font-size: 1rem !important;
+                    }
+                    .hero-content-padding {
+                        padding-bottom: 1.5rem !important;
+                    }
+                }
+            `}</style>
+            <div className="hero-logo-container absolute top-4 left-4 sm:top-8 sm:left-8 z-20 flex items-center gap-3 text-white">
                 <Briefcase className="w-8 h-8 text-primary" />
                 <span className="text-2xl font-bold tracking-tight">Ethic Works</span>
             </div>
@@ -95,16 +128,16 @@ export default function Hero() {
                 sizing="fill"
             />
 
-            <div className="relative z-10 w-full max-w-4xl px-4 text-white sm:px-8 lg:px-16">
+            <div className="relative z-10 w-full max-w-4xl px-4 text-white sm:px-8 lg:px-16 mt-16 md:mt-0">
                 <div className="space-y-4">
                     <AvatarStack />
                     <StatsMarquee />
                 </div>
             </div>
-            <div className="relative z-10 w-full px-4 pb-16 sm:px-8 sm:pb-24 lg:px-16 lg:pb-32">
+            <div className="hero-content-padding relative z-10 w-full px-4 pb-6 sm:px-8 sm:pb-12 lg:px-16 lg:pb-16">
                 <div className="flex flex-col gap-6 sm:flex-row sm:items-end">
                     <div className="w-full space-y-4 sm:w-1/2">
-                        <h1 className="font-medium text-4xl text-white leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+                        <h1 className="hero-heading font-medium text-4xl text-white leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
                             We <span className="text-primary">think</span>, you{" "}
                             <span className="text-primary">grow</span>
                             <br />
@@ -120,7 +153,7 @@ export default function Hero() {
                         </Button>
                     </div>
                     <div className="w-full sm:w-1/2">
-                        <p className="text-base text-primary italic sm:text-right md:text-2xl">
+                        <p className="hero-desc text-base text-primary italic sm:text-right md:text-2xl">
                             We take your big ideas and turn them into clear, winning
                             strategies. From setting up your company to scaling it worldwide,
                             we&apos;re here every step of the way.

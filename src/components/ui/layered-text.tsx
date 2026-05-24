@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { gsap } from "gsap"
 import type React from "react"
 
@@ -33,15 +33,20 @@ export function LayeredText({
 }: LayeredTextProps) {
     const containerRef = useRef<HTMLDivElement>(null)
     const timelineRef = useRef<gsap.core.Timeline>(null)
+    const [isMobile, setIsMobile] = useState(false)
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768)
+        checkMobile()
+        window.addEventListener("resize", checkMobile)
+        return () => window.removeEventListener("resize", checkMobile)
+    }, [])
 
     const calculateTranslateX = (index: number) => {
         const baseOffset = 35
-        const baseOffsetMd = 20
+        const baseOffsetMd = 15
         const centerIndex = Math.floor(lines.length / 2)
-        return {
-            desktop: (index - centerIndex) * baseOffset,
-            mobile: (index - centerIndex) * baseOffsetMd,
-        }
+        return (index - centerIndex) * (isMobile ? baseOffsetMd : baseOffset)
     }
 
     useEffect(() => {
@@ -54,7 +59,7 @@ export function LayeredText({
         timelineRef.current = tl as unknown as gsap.core.Timeline;
 
         tl.to(paragraphs, {
-            y: window.innerWidth >= 768 ? -60 : -35,
+            y: isMobile ? -lineHeightMd : -lineHeight,
             duration: 0.8,
             ease: "power2.out",
             stagger: 0.08,
@@ -75,13 +80,16 @@ export function LayeredText({
             container.removeEventListener("mouseleave", handleMouseLeave)
             tl.kill()
         }
-    }, [lines, autoPlay])
+    }, [lines, autoPlay, isMobile, lineHeight, lineHeightMd])
+
+    const currentFontSize = isMobile ? fontSizeMd : fontSize
+    const currentLineHeight = isMobile ? lineHeightMd : lineHeight
 
     return (
         <div
             ref={containerRef}
             className={`mx-auto py-24 font-sans font-black tracking-[-2px] uppercase text-black dark:text-white antialiased cursor-default ${className}`}
-            style={{ fontSize, "--md-font-size": fontSizeMd } as React.CSSProperties}
+            style={{ fontSize: currentFontSize } as React.CSSProperties}
         >
             <ul className="list-none p-0 m-0 flex flex-col items-center">
                 {lines.map((line, index) => {
@@ -90,38 +98,36 @@ export function LayeredText({
                         <li
                             key={index}
                             className={`
-                overflow-hidden relative
-                ${index % 2 === 0
+                                overflow-hidden relative
+                                ${index % 2 === 0
                                     ? "[transform:skew(60deg,-30deg)_scaleY(0.66667)]"
                                     : "[transform:skew(0deg,-30deg)_scaleY(1.33333)]"
                                 }
-              `}
+                            `}
                             style={
                                 {
-                                    height: `${lineHeight}px`,
-                                    transform: `translateX(${translateX.desktop}px) skew(${index % 2 === 0 ? "60deg, -30deg" : "0deg, -30deg"}) scaleY(${index % 2 === 0 ? "0.66667" : "1.33333"})`,
-                                    "--md-height": `${lineHeightMd}px`,
-                                    "--md-translateX": `${translateX.mobile}px`,
+                                    height: `${currentLineHeight}px`,
+                                    transform: `translateX(${translateX}px) skew(${index % 2 === 0 ? "60deg, -30deg" : "0deg, -30deg"}) scaleY(${index % 2 === 0 ? "0.66667" : "1.33333"})`,
                                 } as React.CSSProperties
                             }
                         >
                             <p
-                                className="leading-[55px] md:leading-[30px] px-[15px] align-top whitespace-nowrap m-0"
+                                className="align-top whitespace-nowrap m-0 px-[15px]"
                                 style={
                                     {
-                                        height: `${lineHeight}px`,
-                                        lineHeight: `${lineHeight - 5}px`,
+                                        height: `${currentLineHeight}px`,
+                                        lineHeight: `${currentLineHeight}px`,
                                     } as React.CSSProperties
                                 }
                             >
                                 {line.top}
                             </p>
                             <p
-                                className="leading-[55px] md:leading-[30px] px-[15px] align-top whitespace-nowrap m-0"
+                                className="align-top whitespace-nowrap m-0 px-[15px]"
                                 style={
                                     {
-                                        height: `${lineHeight}px`,
-                                        lineHeight: `${lineHeight - 5}px`,
+                                        height: `${currentLineHeight}px`,
+                                        lineHeight: `${currentLineHeight}px`,
                                     } as React.CSSProperties
                                 }
                             >
@@ -132,5 +138,5 @@ export function LayeredText({
                 })}
             </ul>
         </div>
-    )
+    );
 }
